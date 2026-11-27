@@ -1,4 +1,14 @@
-# @codemirror/lsp-client [![NPM version](https://img.shields.io/npm/v/@codemirror/lsp-client.svg)](https://www.npmjs.org/package/@codemirror/lsp-client)
+# @acode.app/lsp-client [![NPM version](https://img.shields.io/npm/v/@acode.app/lsp-client.svg)](https://www.npmjs.org/package/@acode.app/lsp-client)
+
+Acode Foundation's fork of [`@codemirror/lsp-client`](https://www.npmjs.org/package/@codemirror/lsp-client) with support for multiple language servers per editor. It is a drop-in replacement:
+
+```shell
+npm install @acode.app/lsp-client
+```
+
+```javascript
+import {LSPClient, languageServerExtensions} from "@acode.app/lsp-client"
+```
 
 [ [**WEBSITE**](https://codemirror.net/) | [**DOCS**](https://codemirror.net/docs/ref/#lsp-client) | [**ISSUES**](https://code.haverbeke.berlin/codemirror/dev/issues) | [**FORUM**](https://discuss.codemirror.net/c/v6/) | [**CHANGELOG**](https://code.haverbeke.berlin/codemirror/lsp-client/src/branch/main/CHANGELOG.md) ]
 

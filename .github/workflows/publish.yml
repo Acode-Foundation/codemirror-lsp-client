@@ -1,0 +1,63 @@
+name: Publish to npm
+
+# Publishing a GitHub release tagged vX.Y.Z publishes that version.
+# Running the workflow by hand does a dry run unless told otherwise.
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: Pack and check without publishing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  # npm trusted publishing and provenance.
+  id-token: write
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      # Trusted publishing needs npm 11.5.1 or later.
+      - run: npm install -g npm@11
+
+      # `prepare` builds dist/ during install.
+      - run: npm install --no-audit --no-fund
+
+      - name: Check the tag matches package.json
+        if: github.event_name == 'release'
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "${GITHUB_REF_NAME}" != "v${version}" ]; then
+            echo "::error::Release tag ${GITHUB_REF_NAME} doesn't match package.json version v${version}"
+            exit 1
+          fi
+
+      - run: npm run build
+
+      - name: Publish
+        run: |
+          tag=latest
+          case "$(node -p "require('./package.json').version")" in *-*) tag=next ;; esac
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.dry-run }}" = "true" ]; then
+            npm publish --tag "$tag" --dry-run
+          else
+            npm publish --tag "$tag"
+          fi
+        env:
+          # Only used until a trusted publisher is configured on npmjs.com.
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

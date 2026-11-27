@@ -1,6 +1,6 @@
 {
-  "name": "@codemirror/lsp-client",
-  "version": "6.2.5-acode.1",
+  "name": "@acode.app/lsp-client",
+  "version": "6.2.5",
   "description": "Acode Foundation's multi-server language protocol client for CodeMirror",
   "keywords": [
     "codemirror",
@@ -16,9 +16,10 @@
     "url": "https://github.com/Acode-Foundation/codemirror-lsp-client/issues"
   },
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "scripts": {
     "test": "cm-runtests",
+    "build": "cm-buildhelper src/index.ts",
     "prepare": "cm-buildhelper src/index.ts"
   },
   "dependencies": {
@@ -36,5 +37,26 @@
     "@codemirror/lang-javascript": "^6.0.0",
     "typescript": "^5.8.3",
     "typescript-language-server": "^4.3.4"
+  },
+  "contributors": [
+    "Acode Foundation"
+  ],
+  "homepage": "https://github.com/Acode-Foundation/codemirror-lsp-client#readme",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "CHANGELOG.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
   }
 }
