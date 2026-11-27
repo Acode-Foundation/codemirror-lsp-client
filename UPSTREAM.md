@@ -28,6 +28,11 @@ git remote add upstream https://code.haverbeke.berlin/codemirror/lsp-client.git
 git fetch upstream --tags
 ```
 
-Acode consumes an exact commit of this repository through its package
-manifest. After publishing a new fork commit, update that commit hash in
-Acode's `package.json` and lockfiles.
+This fork is published to npm as `@acode.app/lsp-client`. To release:
+
+1. Bump `version` in `package.json` (follow the upstream version; use
+   `X.Y.Z-acode.N` only for Acode-only releases on top of the same upstream
+   version, which publish under the `next` tag).
+2. Create a GitHub release tagged `vX.Y.Z`. The `Publish to npm` workflow
+   checks the tag against `package.json`, builds, and publishes.
+3. Bump `@acode.app/lsp-client` in Acode's `package.json` and lockfiles.
